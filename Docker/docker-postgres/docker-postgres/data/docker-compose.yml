@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  postgresql:
+    image: postgres
+    container_name: pg-docker
+    ports:
+      - "5400:5432"
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+    volumes:
+      - ./postgres.conf:/etc/postgresql/postgresql.conf
+      - ./data:/var/lib/postgresql/data
+      - ./delete.sql:/docker-entrypoint-initdb.d/1-delete.sql
+      - ./schema.sql:/docker-entrypoint-initdb.d/2-schema.sql
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    restart: always
